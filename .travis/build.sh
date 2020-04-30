@@ -7,7 +7,7 @@ if [ ${JAVA_MAJOR_VERSION} -gt 1 ] ; then
   export JAVA_VERSION=${JAVA_MAJOR_VERSION}
 fi
 
-if [ ${JAVA_MAJOR_VERSION} -eq 1 ] ; then
+if [ ${JAVA_VERSION} = "11" ] ; then
   # sme parts of the workflow should be done only one on the main build which is currently Java 8
   export MAIN_BUILD="TRUE"
 fi
@@ -69,7 +69,6 @@ else
         echo "Login into Docker Hub ..."
         docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-        export DOCKER_ORG=strimzi
         export DOCKER_TAG=$TAG
         echo "Pushing to docker org $DOCKER_ORG"
         make docker_push

@@ -8,6 +8,8 @@ COPY --from=leeyanzhe/jvm:graalvm-ee-java11 /opt/ /opt/
 
 ENV LANG=en_US.UTF-8
 
+ENV JAVA_VERSION=11
+
 RUN set -eux \
     && cd /opt/graalvm* \
     && export JAVA_HOME="$(pwd)" \
