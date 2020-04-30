@@ -20,7 +20,7 @@ export DOCKER_REGISTRY=${DOCKER_REGISTRY:-docker.io}
 export DOCKER_TAG=$COMMIT
 
 # make docu_check
-make spotbugs
+# make spotbugs
 
 # make crd_install
 # make helm_install
