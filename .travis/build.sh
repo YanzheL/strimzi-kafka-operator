@@ -11,7 +11,7 @@ if [ ${JAVA_VERSION} = "11" ] ; then
   # sme parts of the workflow should be done only one on the main build which is currently Java 8
   export MAIN_BUILD="TRUE"
 fi
-
+export MAIN_BUILD="TRUE"
 export PULL_REQUEST=${PULL_REQUEST:-true}
 export BRANCH=${BRANCH:-master}
 export TAG=${TAG:-latest}
@@ -72,9 +72,9 @@ else
         export DOCKER_TAG=$TAG
         echo "Pushing to docker org $DOCKER_ORG"
         make docker_push
-        if [ "$BRANCH" = "master" ]; then
-            make docu_pushtowebsite
-        fi
+        # if [ "$BRANCH" = "master" ]; then
+        #     make docu_pushtowebsite
+        # fi
         # make pushtonexus
     fi
 fi
