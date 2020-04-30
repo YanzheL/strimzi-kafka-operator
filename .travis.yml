@@ -11,7 +11,7 @@ install:
 - mvn -q install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 before_script:
 - "./.travis/install_yq.sh"
-- "./.travis/setup-kubernetes.sh"
+# - "./.travis/setup-kubernetes.sh"
 script:
 - "./.travis/build.sh"
 cache:
