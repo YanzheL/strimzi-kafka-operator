@@ -19,11 +19,11 @@ export DOCKER_ORG=${DOCKER_ORG:-strimzici}
 export DOCKER_REGISTRY=${DOCKER_REGISTRY:-docker.io}
 export DOCKER_TAG=$COMMIT
 
-# make docu_check
-# make spotbugs
+make docu_check
+make spotbugs
 
-# make crd_install
-# make helm_install
+make crd_install
+make helm_install
 make docker_build
 
 if [ ! -e documentation/modules/appendix_crds.adoc ] ; then
