@@ -52,29 +52,15 @@ if [ -n "$CHANGED_DERIVED" ] || [ -n "$GENERATED_FILES" ] ; then
 fi
 
 # Push to the real docker org
-if [ "$PULL_REQUEST" != "false" ] ; then
-    make docu_html
-    make docu_htmlnoheader
-    echo "Building Pull Request - nothing to push"
-elif [ "${TRAVIS_REPO_SLUG}" != "strimzi/strimzi-kafka-operator" ]; then
-    make docu_html
-    make docu_htmlnoheader
-    echo "Building in a fork and not in a Strimzi repository. Will not attempt to push anything."
-elif [ "$TAG" = "latest" ] && [ "$BRANCH" != "master" ]; then
-    make docu_html
-    make docu_htmlnoheader
-    echo "Not in master branch and not in release tag - nothing to push"
-else
-    if [ "${MAIN_BUILD}" = "TRUE" ] ; then
-        echo "Login into Docker Hub ..."
-        docker login -u $DOCKER_USER -p $DOCKER_PASS
+if [ "${MAIN_BUILD}" = "TRUE" ] ; then
+    echo "Login into Docker Hub ..."
+    docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-        export DOCKER_TAG=$TAG
-        echo "Pushing to docker org $DOCKER_ORG"
-        make docker_push
-        # if [ "$BRANCH" = "master" ]; then
-        #     make docu_pushtowebsite
-        # fi
-        # make pushtonexus
-    fi
+    export DOCKER_TAG=$TAG
+    echo "Pushing to docker org $DOCKER_ORG"
+    make docker_push
+    # if [ "$BRANCH" = "master" ]; then
+    #     make docu_pushtowebsite
+    # fi
+    # make pushtonexus
 fi
