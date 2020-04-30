@@ -19,11 +19,11 @@ export DOCKER_ORG=${DOCKER_ORG:-strimzici}
 export DOCKER_REGISTRY=${DOCKER_REGISTRY:-docker.io}
 export DOCKER_TAG=$COMMIT
 
-make docu_check
+# make docu_check
 make spotbugs
 
-make crd_install
-make helm_install
+# make crd_install
+# make helm_install
 make docker_build
 
 if [ ! -e documentation/modules/appendix_crds.adoc ] ; then
@@ -48,7 +48,7 @@ if [ -n "$CHANGED_DERIVED" ] || [ -n "$GENERATED_FILES" ] ; then
   echo "    && make helm_install \\"
   echo "    && git add install/ helm-charts/ documentation/modules/appendix_crds.adoc cluster-operator/src/main/resources/cluster-roles"
   echo "    && git commit -s -m 'Update derived resources'"
-  exit 1
+  # exit 1
 fi
 
 # Push to the real docker org
@@ -75,6 +75,6 @@ else
         if [ "$BRANCH" = "master" ]; then
             make docu_pushtowebsite
         fi
-        make pushtonexus
+        # make pushtonexus
     fi
 fi
