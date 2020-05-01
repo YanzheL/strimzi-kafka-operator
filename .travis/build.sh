@@ -7,11 +7,13 @@ if [ ${JAVA_MAJOR_VERSION} -gt 1 ] ; then
   export JAVA_VERSION=${JAVA_MAJOR_VERSION}
 fi
 
-if [ ${JAVA_MAJOR_VERSION} -eq 1 ] ; then
+if [ ${JAVA_VERSION} -eq 11 ] ; then
   # sme parts of the workflow should be done only one on the main build which is currently Java 8
   export MAIN_BUILD="TRUE"
 fi
 
+# Force MAIN_BUILD
+export MAIN_BUILD="TRUE"
 export PULL_REQUEST=${PULL_REQUEST:-true}
 export BRANCH=${BRANCH:-master}
 export TAG=${TAG:-latest}
@@ -48,23 +50,23 @@ if [ -n "$CHANGED_DERIVED" ] || [ -n "$GENERATED_FILES" ] ; then
   echo "    && make helm_install \\"
   echo "    && git add install/ helm-charts/ documentation/modules/appendix_crds.adoc cluster-operator/src/main/resources/cluster-roles"
   echo "    && git commit -s -m 'Update derived resources'"
-  exit 1
+  # exit 1
 fi
 
 # Push to the real docker org
-if [ "$PULL_REQUEST" != "false" ] ; then
-    make docu_html
-    make docu_htmlnoheader
-    echo "Building Pull Request - nothing to push"
-elif [ "${TRAVIS_REPO_SLUG}" != "strimzi/strimzi-kafka-operator" ]; then
-    make docu_html
-    make docu_htmlnoheader
-    echo "Building in a fork and not in a Strimzi repository. Will not attempt to push anything."
-elif [ "$TAG" = "latest" ] && [ "$BRANCH" != "master" ]; then
-    make docu_html
-    make docu_htmlnoheader
-    echo "Not in master branch and not in release tag - nothing to push"
-else
+# if [ "$PULL_REQUEST" != "false" ] ; then
+#     make docu_html
+#     make docu_htmlnoheader
+#     echo "Building Pull Request - nothing to push"
+# elif [ "${TRAVIS_REPO_SLUG}" != "strimzi/strimzi-kafka-operator" ]; then
+#     make docu_html
+#     make docu_htmlnoheader
+#     echo "Building in a fork and not in a Strimzi repository. Will not attempt to push anything."
+# elif [ "$TAG" = "latest" ] && [ "$BRANCH" != "master" ]; then
+#     make docu_html
+#     make docu_htmlnoheader
+#     echo "Not in master branch and not in release tag - nothing to push"
+# else
     if [ "${MAIN_BUILD}" = "TRUE" ] ; then
         echo "Login into Docker Hub ..."
         docker login -u $DOCKER_USER -p $DOCKER_PASS
@@ -73,9 +75,9 @@ else
         export DOCKER_TAG=$TAG
         echo "Pushing to docker org $DOCKER_ORG"
         make docker_push
-        if [ "$BRANCH" = "master" ]; then
-            make docu_pushtowebsite
-        fi
-        make pushtonexus
+        # if [ "$BRANCH" = "master" ]; then
+        #     make docu_pushtowebsite
+        # fi
+        # make pushtonexus
     fi
-fi
+# fi
