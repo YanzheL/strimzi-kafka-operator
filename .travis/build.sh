@@ -71,7 +71,6 @@ fi
         echo "Login into Docker Hub ..."
         docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-        export DOCKER_ORG=strimzi
         export DOCKER_TAG=$TAG
         echo "Pushing to docker org $DOCKER_ORG"
         make docker_push
